@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{% static "css/login.css" %}" />
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CGen-Login</title>
+    
+  </head>
+  <body style="background-color: beige;">
+    <div class="container">
+      <div class="row row_style">
+        <div class="col-xs-8">
+              
+              <div class="login-div">
+                <form>
+                
+                  <div class="logo" style='background: url("{% static 'logo1.png' %}")' ></div>
+                  <div class="sub-title">EVENT LOGIN</div>
+
+                  <br> <br> 
+
+                    
+                    {% if request.user.is_authenticated %}
+                    <center>
+                      <p>Hello {{ request.user.email }}</p>
+                    </center>
+
+                    
+                    <div class="social">
+                      <li class="google" >
+                        <a href="{% url "dashboard" %}">Download Certificate</a>
+                      </a>
+                      </li>
+                    </div>
+                    <div class="social">
+                      <li class="google" >
+                        <a href="{% url "logout" %}">Logout</a>
+                      </a>
+                      </li>
+                    </div>
+                    {% else %}
+                    <div class="social">
+                      <li class="google" >
+                        <a href="{% url "social:begin" "google-oauth2" %}"> Google Sign In
+                      </a>
+                      </li>
+                    </div>
+                    {% endif %}  
+              </form>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

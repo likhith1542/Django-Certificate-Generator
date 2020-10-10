@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+  <style>
+    .cont1 {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      padding: 25px 35px 35px 35px;
+      border-radius: 40px;
+      background: #ecf0f3;
+      box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px beige;
+    }
+    .btn {
+      background-color: lightseagreen; /* Green */
+      border: none;
+      color: white;
+      padding: 5px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+  <body style="background-color: beige">
+    <div class="cont1">
+      <h1>
+        You haven't attended the EVENT <br />
+        No certificate available!
+      </h1>
+      <div class="btn">
+        <a href="{% url "logout" %}">
+            <button class="btn">Logout</button>
+        </a>
+      </div>
+    </div>
+    
+  </body>
+</html>
