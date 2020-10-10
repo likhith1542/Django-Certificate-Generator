@@ -22,6 +22,7 @@ Certificate Generator developed using Django framework
 # Pyrebase Installation Error Solution
 Some Errors may be thrown while installing pyrebase. I have tested this in linux,ubuntu and windows archs. Linux and Ubuntu may/maynot have this issue. Windows had this issue. This can be solved
 * Open git bash anywhere/terminal/cmd with git access
+* Clone this repository to your system `git clone https://github.com/thisbejim/Pyrebase.git`
 * Open the folder you just cloned and run the following command: `git fetch origin pull/249/head:upgrade-google-auth`
 * `git checkout upgrade-google-auth`
 * `python setup.py install --user`
