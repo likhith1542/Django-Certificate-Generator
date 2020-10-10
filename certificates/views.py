@@ -18,6 +18,7 @@ from datetime import datetime
 import shutil
 import xlrd
 from PIL import Image
+import mmap
 
 @login_required
 def dashboard(request):
@@ -62,27 +63,74 @@ def dashboard1(request):
         i = i+1
         if(pEmail == (emails.lower())):
             image = Image.new('RGB', (1920, 1080), (255, 255, 255))
-
-            draw = ImageDraw.Draw(image)
-            font_path = 'certificates/static/Almondita.ttf'
-
-            # font of DSC
-            fontdev = ImageFont.truetype(
-                'certificates/static/arial.ttf', size=35)
-            # font of certificates
-            fontcert = ImageFont.truetype(
-                'certificates/static/arialbd.ttf', size=55)
-            # font of participant name
-            fontname = ImageFont.truetype(
-                'certificates/static/arial.ttf', size=35)
-            # font of signature
-            signature = ImageFont.truetype(font_path, 150)
-
-            # colors for various writings
+            
             colordev = 'rgb(128, 128, 128)'
             colorcert = 'rgb(89, 89, 89)'
             colorname = 'rgb(77, 148, 255)'
             colorNameDSCLead = 'rgb(229, 57, 53)'
+            
+            participation_message = f"is hereby awarded this Certificate of Participation on successfully attending \n{eventName} at {uniName} organized by\nCSI {uniAcronym}."
+
+            draw = ImageDraw.Draw(image)
+            
+            with open('certificates/static/arial.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 300), eventName + ' Participant',font=ImageFont.truetype(m, 32),fill=colordev)
+            
+            with open('certificates/static/arial.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 920), 'Signing Authority', font=ImageFont.truetype(m, size=22), fill='rgb(128,128,128)')
+
+            with open('certificates/static/arial.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 500), participation_message, font=ImageFont.truetype(m, size=25),fill='rgb(102, 102, 102)')
+
+            with open('certificates/static/arial.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((1040, 143), 'Computer Society Of India Club',font=ImageFont.truetype(m, size=35), fill=colordev)
+
+            with open('certificates/static/arial.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((1640, 950), 'Certificate ID:', font=ImageFont.truetype(m, size=20), fill=colorcert)
+
+            with open('certificates/static/arial.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((1640, 980), f'Issue Date: {currentDate}', font=ImageFont.truetype(m, size=20), fill=colorcert)
+            
+            
+            with open('certificates/static/Almondita.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((960, 650), leadName, font=ImageFont.truetype(m, 150),fill=colorNameDSCLead)
+
+                
+                      
+            with open('certificates/static/arialbd.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 400), nameslist[i-1],font=ImageFont.truetype(m, 55),fill=colorname)
+                
+            with open('certificates/static/arialbd.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 820), f'Computer Society Of India Club, {uniAcronym} Lead',font=ImageFont.truetype(m, size=22), fill=colorcert)
+
+            with open('certificates/static/arialbd.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 960), 'CSI ' + uniAcronym + ' Lead', font=ImageFont.truetype(m, size=25),fill='rgb(128,128,128)')
+
+            with open('certificates/static/arialbd.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((950, 200), 'Certificate of Participation',font=ImageFont.truetype(m, size=55), fill=colorcert)
+                
+                
+                
+                      
+                      
+            with open('certificates/static/arial_italic.ttf', 'rb') as f:
+                m = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ) #File is open read-only
+                draw.text((1640, 1020), '#Computer Society Of India Club', font=ImageFont.truetype(m, size=18),fill='rgb(211, 47, 47)')
+            
+
+            # colors for various writings
+            
 
             # DSC logo
             dsc_logo = Image.open('certificates/static/logo.jpg')
@@ -96,35 +144,10 @@ def dashboard1(request):
             image.paste(dsc_logo, (950, 125))
             image.paste(side_style, (0, 0))
 
-            participation_message = f"is hereby awarded this Certificate of Participation on successfully attending \n{eventName} at {uniName} organized by\nCSI {uniAcronym}."
 
-            draw.text((1040, 143), 'Computer Society Of India Club',
-                      font=fontdev, fill=colordev)
-            draw.text((950, 200), 'Certificate of Participation',
-                      font=fontcert, fill=colorcert)
-            draw.text((950, 300), eventName + ' Participant', font=ImageFont.truetype(
-                'certificates/static/arial.ttf', size=32), fill=colordev)
-            draw.text((950, 400), nameslist[i-1],
-                      font=fontcert, fill=colorname)
-            draw.text((950, 500), participation_message, font=ImageFont.truetype('certificates/static/arial.ttf', size=25),
-                      fill='rgb(102, 102, 102)')
-            draw.text((960, 650), leadName, font=signature,
-                      fill=colorNameDSCLead)
             draw.line((950, 800, 1520, 800),
                       fill='rgb(128, 128, 128)', width=3)
 
-            draw.text((950, 820), f'Computer Society Of India Club, {uniAcronym} Lead',
-                      font=ImageFont.truetype('certificates/static//arialbd.ttf', size=22), fill=colorcert)
-            draw.text((950, 920), 'Signing Authority', font=ImageFont.truetype(
-                'certificates/static/arial.ttf', size=22), fill='rgb(128,128,128)')
-            draw.text((950, 960), 'CSI ' + uniAcronym + ' Lead', font=ImageFont.truetype('certificates/static/arialbd.ttf', size=25),
-                      fill='rgb(128,128,128)')
-            draw.text((1640, 1020), '#Computer Society Of India Club', font=ImageFont.truetype('certificates/static/arial_italic.ttf', size=18),
-                      fill='rgb(211, 47, 47)')
-            draw.text((1640, 950), 'Certificate ID:', font=ImageFont.truetype(
-                'certificates/static/arial.ttf', size=20), fill=colorcert)
-            draw.text((1640, 980), f'Issue Date: {currentDate}', font=ImageFont.truetype(
-                'certificates/static/arial.ttf', size=20), fill=colorcert)
             image.save('certificate/' + nameslist[i-1] + '.png')
             namet = 'certificate/' + nameslist[i-1] + '.png'
 
@@ -132,4 +155,3 @@ def dashboard1(request):
         return FileResponse(open(namet, 'rb'), content_type='application/png')
     except FileNotFoundError:
         return HttpResponse('Your participation was not available')
-    
